@@ -1,7 +1,10 @@
 package org.usfirst.frc.team3494.robot;
 
+import org.usfirst.frc.team3494.robot.commands.lifter.AutoLift;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -15,9 +18,10 @@ public class OI {
 	// number it is.
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
-	public Joystick flight_one = new Joystick(0);
-	public Joystick flight_two = new Joystick(1);
-	public XboxController xbox = new XboxController(2);
+	public final Joystick flight_one = new Joystick(0);
+	public final Joystick flight_two = new Joystick(1);
+	public final XboxController xbox = new XboxController(2);
+	private final JoystickButton xbox_a = new JoystickButton(xbox, 1);
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
@@ -37,4 +41,11 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	public OI() {
+		getXbox_a().whenPressed(new AutoLift(true));
+	}
+
+	public JoystickButton getXbox_a() {
+		return xbox_a;
+	}
 }

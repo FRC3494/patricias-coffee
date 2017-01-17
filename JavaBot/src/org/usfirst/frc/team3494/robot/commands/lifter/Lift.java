@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3494.robot.commands;
+package org.usfirst.frc.team3494.robot.commands.lifter;
 
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
