@@ -1,10 +1,14 @@
 
 package org.usfirst.frc.team3494.robot;
 
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
+import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,6 +16,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,11 +27,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class Robot extends IterativeRobot {
 
-	public static final Drivetrain driveTrain = new Drivetrain();
-	public static final Lifter lifter = new Lifter();
-	public static final Turret turret = new Turret();
+	public static Drivetrain driveTrain;
+	public static Lifter lifter;
+	public static Turret turret;
 	public static OI oi;
 
+	// vision
+	private static final int IMG_WIDTH = 320;
+	private static final int IMG_HEIGHT = 240;
+	
+	private VisionThread visionThread;
+	private double centerX = 0.0;
+	
+	private final Object imgLock = new Object();
+	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -36,8 +50,25 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		// init subsystems
+		driveTrain = new Drivetrain();
+		lifter = new Lifter();
+		turret = new Turret();
 		oi = new OI();
+		// start camera
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		CameraServer.getInstance().startAutomaticCapture("TurretCam", "/dev/video0");
+		// start vision thread
+		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
+	        if (!pipeline.filterContoursOutput().isEmpty()) {
+	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+	            synchronized (imgLock) {
+	                centerX = r.x + (r.width / 2);
+	            }
+	        }
+	    });
+	    visionThread.start();
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
