@@ -1,22 +1,28 @@
 
 package org.usfirst.frc.team3494.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,8 +41,9 @@ public class Robot extends IterativeRobot {
 	// vision
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
+	private static RobotDrive wpiDrive; 
 	
-	private VisionThread visionThread;
+	VisionThread visionThread;
 	private double centerX = 0.0;
 	
 	private final Object imgLock = new Object();
@@ -55,11 +62,9 @@ public class Robot extends IterativeRobot {
 		lifter = new Lifter();
 		turret = new Turret();
 		oi = new OI();
-		// start camera
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		CameraServer.getInstance().startAutomaticCapture("TurretCam", "/dev/video0");
 		// start vision thread
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
 	        if (!pipeline.filterContoursOutput().isEmpty()) {
 	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
@@ -68,7 +73,8 @@ public class Robot extends IterativeRobot {
 	            }
 	        }
 	    });
-	    visionThread.start();
+		visionThread.start();
+	    wpiDrive = new RobotDrive(driveTrain.drive_left, driveTrain.drive_right);
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
@@ -102,8 +108,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
+		try {
+			autonomousCommand = chooser.getSelected();
+		} catch (NullPointerException e) {
+			// god damn NPEs, we're gonna make Java great again folks
+			autonomousCommand = null;
+		}
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -121,7 +132,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		// commented out for vision
+		// Scheduler.getInstance().run();
+		double centerX;
+		synchronized (imgLock) {
+			centerX = this.centerX;
+		}
+		double turn = centerX - (IMG_WIDTH / 2);
+		// drive with turn
+		System.out.println("Turn value: " + turn * 0.005);
+		wpiDrive.arcadeDrive(0.5, turn * 0.005);
 	}
 
 	@Override

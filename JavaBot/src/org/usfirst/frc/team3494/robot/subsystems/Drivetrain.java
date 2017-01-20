@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Drivetrain subsytem.
  */
 public class Drivetrain extends Subsystem {
-	private Victor drive_left = new Victor(RobotMap.drive_left);
-	private Victor drive_right = new Victor(RobotMap.drive_right);
+	public Victor drive_left = new Victor(RobotMap.drive_left);
+	public Victor drive_right = new Victor(RobotMap.drive_right);
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
