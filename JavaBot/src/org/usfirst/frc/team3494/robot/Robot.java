@@ -1,19 +1,15 @@
 
 package org.usfirst.frc.team3494.robot;
 
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -45,6 +41,7 @@ public class Robot extends IterativeRobot {
 	
 	VisionThread visionThread;
 	private double centerX = 0.0;
+	private Rect rect;
 	
 	private final Object imgLock = new Object();
 	
@@ -65,16 +62,20 @@ public class Robot extends IterativeRobot {
 		// start vision thread
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		camera.setExposureManual(15);
+		camera.setWhiteBalanceManual(VideoCamera.WhiteBalance.kFixedIndoor);
 		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
-	        if (!pipeline.filterContoursOutput().isEmpty()) {
-	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+	        if (!pipeline.findContoursOutput().isEmpty()) {
+	            Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
 	            synchronized (imgLock) {
+	            	rect = r;
 	                centerX = r.x + (r.width / 2);
 	            }
 	        }
+	        
 	    });
 		visionThread.start();
-	    wpiDrive = new RobotDrive(driveTrain.drive_left, driveTrain.drive_right);
+	    wpiDrive = driveTrain.wpiDrive;
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
@@ -135,13 +136,17 @@ public class Robot extends IterativeRobot {
 		// commented out for vision
 		// Scheduler.getInstance().run();
 		double centerX;
+		Rect rect;
 		synchronized (imgLock) {
 			centerX = this.centerX;
+			rect = this.rect;
 		}
 		double turn = centerX - (IMG_WIDTH / 2);
 		// drive with turn
 		System.out.println("Turn value: " + turn * 0.005);
-		wpiDrive.arcadeDrive(0.5, turn * 0.005);
+		System.out.println("centerX: " + centerX);
+		System.out.println("Rect r: " + rect.toString());
+		wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 	}
 
 	@Override
