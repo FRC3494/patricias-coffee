@@ -37,14 +37,14 @@ public class Robot extends IterativeRobot {
 	// vision
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
-	private static RobotDrive wpiDrive; 
-	
+	private static RobotDrive wpiDrive;
+
 	VisionThread visionThread;
 	private double centerX = 0.0;
 	private Rect rect;
-	
+
 	private final Object imgLock = new Object();
-	
+
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -65,17 +65,17 @@ public class Robot extends IterativeRobot {
 		camera.setExposureManual(15);
 		camera.setWhiteBalanceManual(VideoCamera.WhiteBalance.kFixedIndoor);
 		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
-	        if (!pipeline.findContoursOutput().isEmpty()) {
-	            Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
-	            synchronized (imgLock) {
-	            	rect = r;
-	                centerX = r.x + (r.width / 2);
-	            }
-	        }
-	        
-	    });
+			if (!pipeline.findContoursOutput().isEmpty()) {
+				Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
+				synchronized (imgLock) {
+					rect = r;
+					centerX = r.x + (r.width / 2);
+				}
+			}
+
+		});
 		visionThread.start();
-	    wpiDrive = driveTrain.wpiDrive;
+		wpiDrive = driveTrain.wpiDrive;
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
@@ -115,7 +115,7 @@ public class Robot extends IterativeRobot {
 			// god damn NPEs, we're gonna make Java great again folks
 			autonomousCommand = null;
 		}
-		
+
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

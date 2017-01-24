@@ -44,13 +44,14 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	public OI() {
-		getXbox_a().whenPressed(new AutoLift(true));
-		getXbox_b().whenPressed(new TurnLeft());
+		xbox_a.whenPressed(new AutoLift(true));
+		xbox_b.whenPressed(new TurnLeft());
 	}
 
 	public JoystickButton getXbox_a() {
 		return xbox_a;
 	}
+
 	public JoystickButton getXbox_b() {
 		return xbox_b;
 	}

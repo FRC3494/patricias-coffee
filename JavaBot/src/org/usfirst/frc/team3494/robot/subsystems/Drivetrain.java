@@ -3,6 +3,7 @@ package org.usfirst.frc.team3494.robot.subsystems;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.Drive;
 
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Drivetrain extends Subsystem {
 	public Victor drive_left = new Victor(RobotMap.drive_left);
 	public Victor drive_right = new Victor(RobotMap.drive_right);
+	public RobotDrive wpiDrive = new RobotDrive(drive_left, drive_right);
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 

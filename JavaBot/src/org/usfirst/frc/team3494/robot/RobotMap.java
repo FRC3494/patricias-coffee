@@ -22,7 +22,8 @@ public class RobotMap {
 	public static int liftBottom = 6;
 	public static int liftTopFront = 4;
 	public static int liftTopBack = 5;
-	
+
 	public static int shooterTop = 3;
 	public static int shooterBottom = 2;
+	public static int turretMotor = 7;
 }
