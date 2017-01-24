@@ -22,9 +22,7 @@ public class Shoot extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.oi.flight_two.getRawButton(1)) {
-			Robot.turret.shoot(0.75);
-		} else if (Robot.oi.xbox.getTriggerAxis(Hand.kRight) > 0) {
+		if (Robot.oi.xbox.getTriggerAxis(Hand.kRight) > 0) {
 			Robot.turret.shoot(Robot.oi.xbox.getTriggerAxis(Hand.kRight));
 		} else {
 			Robot.turret.shoot(0);

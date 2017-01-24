@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3494.robot;
 
-import org.usfirst.frc.team3494.robot.commands.drive.TurnLeft;
 import org.usfirst.frc.team3494.robot.commands.lifter.AutoLift;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,6 +23,7 @@ public class OI {
 	public final XboxController xbox = new XboxController(2);
 	private final JoystickButton xbox_a = new JoystickButton(xbox, 1);
 	private final JoystickButton xbox_b = new JoystickButton(xbox, 2);
+	private final JoystickButton xbox_lb = new JoystickButton(xbox, 5);
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
@@ -45,7 +45,6 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	public OI() {
 		xbox_a.whenPressed(new AutoLift(true));
-		xbox_b.whenPressed(new TurnLeft());
 	}
 
 	public JoystickButton getXbox_a() {
@@ -54,5 +53,9 @@ public class OI {
 
 	public JoystickButton getXbox_b() {
 		return xbox_b;
+	}
+
+	public JoystickButton getXbox_lb() {
+		return xbox_lb;
 	}
 }

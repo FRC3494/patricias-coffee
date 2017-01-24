@@ -2,6 +2,7 @@ package org.usfirst.frc.team3494.robot.commands;
 
 import org.usfirst.frc.team3494.robot.Robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -21,9 +22,7 @@ public class Drive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double left = Robot.oi.flight_one.getRawAxis(1) * -1;
-		double right = Robot.oi.flight_two.getRawAxis(1);
-		Robot.driveTrain.TankDrive(left, right);
+		Robot.driveTrain.wpiDrive.arcadeDrive(Robot.oi.xbox.getY(Hand.kLeft) * -1, Robot.oi.xbox.getX(Hand.kLeft) * -1);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
