@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3494.robot;
 
-import org.usfirst.frc.team3494.robot.commands.lifter.AutoLift;
+import org.usfirst.frc.team3494.robot.commands.turret.AimbotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -44,7 +44,7 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	public OI() {
-		xbox_a.whenPressed(new AutoLift(true));
+		xbox_a.whileHeld(new AimbotCommand());
 	}
 
 	public JoystickButton getXbox_a() {

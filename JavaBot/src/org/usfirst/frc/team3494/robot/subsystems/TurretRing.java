@@ -47,6 +47,16 @@ public class TurretRing extends Subsystem {
 			turret_con.stopMotor();
 		}
 	}
+	
+	public void preciseTurret(double power, DriveDirections dir) {
+		if (dir.equals(DriveDirections.LEFT)) {
+			turret_con.set(power * -1);
+		} else if (dir.equals(DriveDirections.RIGHT)) {
+			turret_con.set(power);
+		} else {
+			turret_con.stopMotor();
+		}
+	}
 
 	/**
 	 * @return the turret_enc
