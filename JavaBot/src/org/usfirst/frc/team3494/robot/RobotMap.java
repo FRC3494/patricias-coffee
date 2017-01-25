@@ -26,4 +26,7 @@ public class RobotMap {
 	public static final int shooterTop = 3;
 	public static final int shooterBottom = 2;
 	public static final int turretMotor = 7;
+	
+	public static final int turretEncoder_A = 9;
+	public static final int turretEncoder_B = 8;
 }
