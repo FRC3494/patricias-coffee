@@ -16,7 +16,14 @@ public class TurretRing extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	private Victor turret_con = new Victor(RobotMap.turretMotor);
-	private Encoder turret_enc = new Encoder(8, 9);
+	private Encoder turret_enc;
+	
+	public TurretRing() {
+		super("TurretRing");
+		turret_enc = new Encoder(RobotMap.turretEncoder_A, RobotMap.turretEncoder_B);
+		turret_enc.setDistancePerPulse(1/420);
+		turret_enc.reset();
+	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
