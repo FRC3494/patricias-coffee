@@ -5,6 +5,7 @@ import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
+import org.usfirst.frc.team3494.robot.subsystems.MemSys;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
 import org.usfirst.frc.team3494.robot.subsystems.TurretRing;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public static Lifter lifter;
 	public static Turret turret;
 	public static TurretRing turretRing;
+	public static MemSys memSys;
 	public static OI oi;
 
 	// vision
@@ -61,10 +63,11 @@ public class Robot extends IterativeRobot {
 		lifter = new Lifter();
 		turret = new Turret();
 		turretRing = new TurretRing();
+		memSys = new MemSys();
 		oi = new OI();
 		// start vision thread
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		camera.setResolution(getImgWidth(), IMG_HEIGHT);
 		camera.setExposureManual(15);
 		camera.setWhiteBalanceManual(VideoCamera.WhiteBalance.kFixedIndoor);
 		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
@@ -144,7 +147,7 @@ public class Robot extends IterativeRobot {
 			centerX = this.centerX;
 			rect = this.rect;
 		}
-		double turn = centerX - (IMG_WIDTH / 2);
+		double turn = centerX - (getImgWidth() / 2);
 		// drive with turn
 		System.out.println("Turn value: " + turn * 0.005);
 		System.out.println("centerX: " + centerX);
@@ -167,6 +170,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		double centerX;
+		synchronized (imgLock) {
+			centerX = this.centerX;
+		}
+		memSys.setCenterX(centerX);
 		Scheduler.getInstance().run();
 	}
 
@@ -176,5 +184,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	public double getCenterX() {
+		return centerX;
+	}
+
+	/**
+	 * @return the imgWidth
+	 */
+	public static int getImgWidth() {
+		return IMG_WIDTH;
 	}
 }
