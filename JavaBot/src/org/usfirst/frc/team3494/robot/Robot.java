@@ -185,6 +185,7 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
+
 	public double getCenterX() {
 		return centerX;
 	}

@@ -17,11 +17,11 @@ public class TurretRing extends Subsystem {
 	// here. Call these from Commands.
 	private Victor turret_con = new Victor(RobotMap.turretMotor);
 	private Encoder turret_enc;
-	
+
 	public TurretRing() {
 		super("TurretRing");
 		turret_enc = new Encoder(RobotMap.turretEncoder_A, RobotMap.turretEncoder_B);
-		turret_enc.setDistancePerPulse(1/420);
+		turret_enc.setDistancePerPulse(1 / 420);
 		turret_enc.reset();
 	}
 
@@ -47,7 +47,7 @@ public class TurretRing extends Subsystem {
 			turret_con.stopMotor();
 		}
 	}
-	
+
 	public void preciseTurret(double power, DriveDirections dir) {
 		if (dir.equals(DriveDirections.LEFT)) {
 			turret_con.set(power * -1);
