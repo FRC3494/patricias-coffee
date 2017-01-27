@@ -24,6 +24,7 @@ public class AimbotCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		double centerX = Robot.memSys.getCenterX();
+		System.out.println("centerX: " + centerX);
 		double centerDist = centerX - (Robot.getImgWidth() / 2);
 		/*
 		 * if (centerX > 75 || centerX < -75) { if (centerDist < 0) {
@@ -32,13 +33,14 @@ public class AimbotCommand extends Command {
 		 * Robot.turretRing.turnTurret(DriveDirections.RIGHT); } } else
 		 */
 		double turnpower = Math.abs(centerDist * 0.006);
-		if (turnpower > 0.1) {
+		if (turnpower > 0.1  && !Robot.memSys.isLocked) {
 			if (centerDist < 0) {
 				Robot.turretRing.preciseTurret(turnpower, DriveDirections.LEFT);
 			} else {
 				Robot.turretRing.preciseTurret(turnpower, DriveDirections.RIGHT);
 			}
 		} else {
+			Robot.memSys.isLocked = true;
 			Robot.turretRing.turnTurret(DriveDirections.STOP);
 		}
 	}

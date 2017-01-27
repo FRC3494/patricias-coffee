@@ -10,6 +10,7 @@ public class MemSys extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	private double centerX;
+	public boolean isLocked = false;
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
