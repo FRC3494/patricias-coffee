@@ -34,8 +34,10 @@ public class Drivetrain extends Subsystem {
 	 * @return void
 	 */
 	public void TankDrive(double left, double right) {
-		drive_left.set(left);
-		drive_right.set(right);
+		if (left > RobotMap.DRIVE_TOLERANCE && right > RobotMap.DRIVE_TOLERANCE) {
+			drive_left.set(left);
+			drive_right.set(right);
+		}
 	}
 
 	/**
