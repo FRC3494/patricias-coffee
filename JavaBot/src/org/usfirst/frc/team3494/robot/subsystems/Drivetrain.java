@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import org.usfirst.frc.team3494.robot.RobotMap;
-import org.usfirst.frc.team3494.robot.commands.Drive;
+import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Victor;
