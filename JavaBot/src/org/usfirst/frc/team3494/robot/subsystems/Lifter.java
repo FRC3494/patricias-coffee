@@ -16,7 +16,7 @@ public class Lifter extends Subsystem {
 	private Victor lift_bottom = new Victor(RobotMap.liftBottom);
 	private Victor lift_top_front = new Victor(RobotMap.liftTopFront);
 	private Victor lift_top_back = new Victor(RobotMap.liftTopBack);
-	
+
 	public Lifter() {
 		super();
 		lift_bottom.setInverted(true);
