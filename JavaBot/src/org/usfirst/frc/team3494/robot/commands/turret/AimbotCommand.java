@@ -25,17 +25,18 @@ public class AimbotCommand extends Command {
 	protected void execute() {
 		double centerX = Robot.memSys.getCenterX();
 		double centerDist = centerX - (Robot.getImgWidth() / 2);
-		if (centerX > 75 || centerX < -75) {
+		/*
+		 * if (centerX > 75 || centerX < -75) { if (centerDist < 0) {
+		 * Robot.turretRing.turnTurret(DriveDirections.LEFT); } else if
+		 * (centerDist > 0) {
+		 * Robot.turretRing.turnTurret(DriveDirections.RIGHT); } } else
+		 */
+		double turnpower = Math.abs(centerDist * 0.006);
+		if (turnpower > 0.1) {
 			if (centerDist < 0) {
-				Robot.turretRing.turnTurret(DriveDirections.LEFT);
-			} else if (centerDist > 0) {
-				Robot.turretRing.turnTurret(DriveDirections.RIGHT);
-			}
-		} else if (centerDist != 0) {
-			if (centerDist < 0) {
-				Robot.turretRing.preciseTurret(0.01, DriveDirections.LEFT);
-			} else if (centerDist > 0) {
-				Robot.turretRing.preciseTurret(0.01, DriveDirections.RIGHT);
+				Robot.turretRing.preciseTurret(turnpower, DriveDirections.LEFT);
+			} else {
+				Robot.turretRing.preciseTurret(turnpower, DriveDirections.RIGHT);
 			}
 		} else {
 			Robot.turretRing.turnTurret(DriveDirections.STOP);
