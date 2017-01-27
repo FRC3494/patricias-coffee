@@ -44,7 +44,7 @@ public class Drivetrain extends Subsystem {
 	 * Does what it says on the tin.
 	 */
 	public void StopDrive() {
-		drive_left.set(0);
-		drive_right.set(0);
+		drive_left.stopMotor();
+		drive_right.stopMotor();
 	}
 }
