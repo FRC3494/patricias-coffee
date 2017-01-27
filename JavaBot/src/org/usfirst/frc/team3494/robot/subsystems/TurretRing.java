@@ -50,7 +50,7 @@ public class TurretRing extends Subsystem {
 
 	public void preciseTurret(double power, DriveDirections dir) {
 		if (dir.equals(DriveDirections.LEFT)) {
-			turret_con.set(power * -1);
+			turret_con.set(-power);
 		} else if (dir.equals(DriveDirections.RIGHT)) {
 			turret_con.set(power);
 		} else {
@@ -63,5 +63,9 @@ public class TurretRing extends Subsystem {
 	 */
 	public Encoder getTurret_enc() {
 		return turret_enc;
+	}
+
+	public void resetTurret_enc() {
+		turret_enc.reset();
 	}
 }
