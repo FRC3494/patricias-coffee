@@ -13,7 +13,7 @@ public class AimbotCommand extends Command {
 	public AimbotCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.turretRing);
+		requires(Robot.turret);
 		requires(Robot.memSys);
 	}
 
@@ -35,12 +35,12 @@ public class AimbotCommand extends Command {
 		double turnpower = Math.abs(centerDist * 0.006);
 		if (turnpower > 0.15) {
 			if (centerDist < 0) {
-				Robot.turretRing.preciseTurret(turnpower, DriveDirections.LEFT);
+				Robot.turret.preciseTurret(turnpower, DriveDirections.LEFT);
 			} else {
-				Robot.turretRing.preciseTurret(turnpower, DriveDirections.RIGHT);
+				Robot.turret.preciseTurret(turnpower, DriveDirections.RIGHT);
 			}
 		} else {
-			Robot.turretRing.turnTurret(DriveDirections.STOP);
+			Robot.turret.turnTurret(DriveDirections.STOP);
 		}
 	}
 

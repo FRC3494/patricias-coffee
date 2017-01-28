@@ -7,7 +7,6 @@ import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.MemSys;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
-import org.usfirst.frc.team3494.robot.subsystems.TurretRing;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
 import edu.wpi.cscore.UsbCamera;
@@ -34,7 +33,6 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain driveTrain;
 	public static Lifter lifter;
 	public static Turret turret;
-	public static TurretRing turretRing;
 	public static MemSys memSys;
 	public static OI oi;
 
@@ -62,7 +60,6 @@ public class Robot extends IterativeRobot {
 		driveTrain = new Drivetrain();
 		lifter = new Lifter();
 		turret = new Turret();
-		turretRing = new TurretRing();
 		memSys = new MemSys();
 		oi = new OI();
 		// start vision thread

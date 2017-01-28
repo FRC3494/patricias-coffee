@@ -12,7 +12,7 @@ public class ResetTurretEnc extends Command {
 	public ResetTurretEnc() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.turretRing);
+		requires(Robot.turret);
 	}
 
 	// Called just before this Command runs the first time
@@ -22,7 +22,7 @@ public class ResetTurretEnc extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.turretRing.resetTurret_enc();
+		Robot.turret.resetTurret_enc();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -2,6 +2,7 @@ package org.usfirst.frc.team3494.robot;
 
 import org.usfirst.frc.team3494.robot.commands.turret.AimbotCommand;
 import org.usfirst.frc.team3494.robot.commands.turret.ResetTurretEnc;
+import org.usfirst.frc.team3494.robot.commands.turret.TurnTurret;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -24,6 +25,7 @@ public class OI {
 	public final XboxController xbox = new XboxController(2);
 	private final JoystickButton xbox_a = new JoystickButton(xbox, 1);
 	private final JoystickButton xbox_b = new JoystickButton(xbox, 2);
+	private final JoystickButton xbox_x = new JoystickButton(xbox, 3);
 	private final JoystickButton xbox_lb = new JoystickButton(xbox, 5);
 	private final JoystickButton xbox_start = new JoystickButton(xbox, 7);
 	// There are a few additional built in buttons you can use. Additionally,
@@ -48,6 +50,8 @@ public class OI {
 	public OI() {
 		xbox_a.whileHeld(new AimbotCommand());
 		xbox_start.whenPressed(new ResetTurretEnc());
+		xbox_x.whenPressed(new TurnTurret(DriveDirections.LEFT));
+		xbox_b.whenPressed(new TurnTurret(DriveDirections.RIGHT));
 	}
 
 	public JoystickButton getXbox_a() {
@@ -60,5 +64,12 @@ public class OI {
 
 	public JoystickButton getXbox_lb() {
 		return xbox_lb;
+	}
+
+	/**
+	 * @return the xbox_x
+	 */
+	public JoystickButton getXbox_x() {
+		return xbox_x;
 	}
 }
