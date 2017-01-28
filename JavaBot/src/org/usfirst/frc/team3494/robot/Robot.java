@@ -115,7 +115,7 @@ public class Robot extends IterativeRobot {
 		try {
 			autonomousCommand = chooser.getSelected();
 		} catch (NullPointerException e) {
-			// god damn NPEs, we're gonna make Java great again folks
+			System.out.println("Caught NPE in auto init. Is there a button chooser on the SmartDashboard?");
 			autonomousCommand = null;
 		}
 
