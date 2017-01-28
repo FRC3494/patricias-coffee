@@ -33,14 +33,13 @@ public class AimbotCommand extends Command {
 		 * Robot.turretRing.turnTurret(DriveDirections.RIGHT); } } else
 		 */
 		double turnpower = Math.abs(centerDist * 0.006);
-		if (turnpower > 0.1  && !Robot.memSys.isLocked) {
+		if (turnpower > 0.15) {
 			if (centerDist < 0) {
 				Robot.turretRing.preciseTurret(turnpower, DriveDirections.LEFT);
 			} else {
 				Robot.turretRing.preciseTurret(turnpower, DriveDirections.RIGHT);
 			}
 		} else {
-			Robot.memSys.isLocked = true;
 			Robot.turretRing.turnTurret(DriveDirections.STOP);
 		}
 	}

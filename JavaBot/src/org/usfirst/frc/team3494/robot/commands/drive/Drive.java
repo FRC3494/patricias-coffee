@@ -22,12 +22,7 @@ public class Drive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double angle = Robot.oi.xbox.getX(Hand.kLeft) * -1;
-		double drive = Robot.oi.xbox.getY(Hand.kLeft) * -1;
 		Robot.driveTrain.wpiDrive.arcadeDrive(Robot.oi.xbox.getY(Hand.kLeft) * -1, Robot.oi.xbox.getX(Hand.kLeft) * -1);
-		if (Math.abs(angle) > 0.1 || Math.abs(drive) > 0.1) {
-			Robot.memSys.isLocked = false;
-		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
