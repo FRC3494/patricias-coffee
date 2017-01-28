@@ -68,9 +68,6 @@ public class OI {
 		return xbox_lb;
 	}
 
-	/**
-	 * @return the xbox_x
-	 */
 	public JoystickButton getXbox_x() {
 		return xbox_x;
 	}
