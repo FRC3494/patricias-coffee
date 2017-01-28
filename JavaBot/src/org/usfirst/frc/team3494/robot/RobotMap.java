@@ -29,6 +29,6 @@ public class RobotMap {
 
 	public static final int turretEncoder_A = 9;
 	public static final int turretEncoder_B = 8;
-	
+
 	public static final double DRIVE_TOLERANCE = 0.1;
 }

@@ -18,14 +18,14 @@ public class Turret extends Subsystem {
 	private Encoder turret_enc;
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	
+
 	public Turret() {
 		super("Turret");
 		turret_enc = new Encoder(RobotMap.turretEncoder_A, RobotMap.turretEncoder_B);
 		turret_enc.setDistancePerPulse(1 / 420);
 		turret_enc.reset();
 	}
-	
+
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -43,6 +43,7 @@ public class Turret extends Subsystem {
 		shooter_top.set(speed);
 		shooter_bot.set(speed);
 	}
+
 	/**
 	 * Turn the turret.
 	 * 

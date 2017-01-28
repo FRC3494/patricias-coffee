@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TurnTurret extends Command {
-	
+
 	private DriveDirections dir;
-	
+
 	public TurnTurret(DriveDirections D) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
