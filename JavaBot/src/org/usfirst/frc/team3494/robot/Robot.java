@@ -147,9 +147,6 @@ public class Robot extends IterativeRobot {
 		}
 		double turn = centerX - (getImgWidth() / 2);
 		// drive with turn
-		System.out.println("Turn value: " + turn * 0.005);
-		System.out.println("centerX: " + centerX);
-		System.out.println("Rect r: " + rect.toString());
 		wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 	}
 
