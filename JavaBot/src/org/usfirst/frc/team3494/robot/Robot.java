@@ -185,9 +185,6 @@ public class Robot extends IterativeRobot {
 		return centerX;
 	}
 
-	/**
-	 * @return the imgWidth
-	 */
 	public static int getImgWidth() {
 		return IMG_WIDTH;
 	}
