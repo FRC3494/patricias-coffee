@@ -115,7 +115,7 @@ public class Robot extends IterativeRobot {
 		try {
 			autonomousCommand = chooser.getSelected();
 		} catch (NullPointerException e) {
-			// god damn NPEs, we're gonna make Java great again folks
+			System.out.println("Caught NPE in auto init. Is there a button chooser on the SmartDashboard?");
 			autonomousCommand = null;
 		}
 
@@ -127,8 +127,9 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
 	}
 
 	/**
@@ -146,9 +147,6 @@ public class Robot extends IterativeRobot {
 		}
 		double turn = centerX - (getImgWidth() / 2);
 		// drive with turn
-		System.out.println("Turn value: " + turn * 0.005);
-		System.out.println("centerX: " + centerX);
-		System.out.println("Rect r: " + rect.toString());
 		wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 	}
 
@@ -187,9 +185,6 @@ public class Robot extends IterativeRobot {
 		return centerX;
 	}
 
-	/**
-	 * @return the imgWidth
-	 */
 	public static int getImgWidth() {
 		return IMG_WIDTH;
 	}
