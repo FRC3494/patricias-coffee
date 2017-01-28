@@ -18,10 +18,11 @@ public class Lifter extends Subsystem {
 	private Victor lift_top_back = new Victor(RobotMap.liftTopBack);
 
 	public Lifter() {
-		super();
+		super("Lifter");
 		lift_bottom.setInverted(true);
 	}
 
+	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new Lift());

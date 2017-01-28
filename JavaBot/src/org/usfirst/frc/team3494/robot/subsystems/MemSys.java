@@ -13,6 +13,7 @@ public class MemSys extends Subsystem {
 	// here. Call these from Commands.
 	private double centerX;
 
+	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
