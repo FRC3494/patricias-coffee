@@ -43,7 +43,6 @@ public class Robot extends IterativeRobot {
 
 	VisionThread visionThread;
 	private double centerX = 0.0;
-	private Rect rect;
 
 	private final Object imgLock = new Object();
 
@@ -71,7 +70,6 @@ public class Robot extends IterativeRobot {
 			if (!pipeline.findContoursOutput().isEmpty()) {
 				Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
 				synchronized (imgLock) {
-					rect = r;
 					centerX = r.x + (r.width / 2);
 				}
 			}
@@ -140,10 +138,10 @@ public class Robot extends IterativeRobot {
 		// commented out for vision
 		// Scheduler.getInstance().run();
 		double centerX;
-		Rect rect;
+		// Rect rect;
 		synchronized (imgLock) {
 			centerX = this.centerX;
-			rect = this.rect;
+			// rect = this.rect;
 		}
 		double turn = centerX - (getImgWidth() / 2);
 		// drive with turn
