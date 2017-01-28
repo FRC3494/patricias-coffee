@@ -1,19 +1,18 @@
-package org.usfirst.frc.team3494.robot.commands.turret;
+package org.usfirst.frc.team3494.robot.commands.drive;
 
 import org.usfirst.frc.team3494.robot.Robot;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Default command for shooter
+ *
  */
-public class Shoot extends Command {
+public class TurnLeft extends Command {
 
-	public Shoot() {
+	public TurnLeft() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.turret);
+		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
@@ -22,16 +21,12 @@ public class Shoot extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.oi.xbox.getTriggerAxis(Hand.kRight) > 0) {
-			Robot.turret.shoot(Robot.oi.xbox.getTriggerAxis(Hand.kRight));
-		} else {
-			Robot.turret.shoot(0);
-		}
+		Robot.driveTrain.wpiDrive.arcadeDrive(0.5, 0.5);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return !Robot.oi.getXbox_b().get();
 	}
 
 	// Called once after isFinished returns true

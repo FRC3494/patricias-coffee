@@ -3,6 +3,7 @@ package org.usfirst.frc.team3494.robot.commands.lifter;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -24,13 +25,13 @@ public class Lift extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		int pov = Robot.oi.flight_two.getPOV();
-		if (pov == -1) {
+		double leftTrigger = Robot.oi.xbox.getTriggerAxis(Hand.kLeft);
+		if (!(leftTrigger > 0) && !(Robot.oi.getXbox_lb().get())) {
 			Robot.lifter.stopLift();
-		} else if (pov == 0) {
-			Robot.lifter.lift(true);
-		} else if (pov == 180) {
+		} else if (Robot.oi.getXbox_lb().get()) {
 			Robot.lifter.lift(false);
+		} else if (leftTrigger > 0) {
+			Robot.lifter.lift(true);
 		}
 	}
 

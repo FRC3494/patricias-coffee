@@ -1,16 +1,25 @@
 
 package org.usfirst.frc.team3494.robot;
 
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
+import org.usfirst.frc.team3494.robot.subsystems.MemSys;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
+import org.usfirst.frc.team3494.robot.subsystems.TurretRing;
+import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,10 +31,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class Robot extends IterativeRobot {
 
-	public static final Drivetrain driveTrain = new Drivetrain();
-	public static final Lifter lifter = new Lifter();
-	public static final Turret turret = new Turret();
+	public static Drivetrain driveTrain;
+	public static Lifter lifter;
+	public static Turret turret;
+	public static TurretRing turretRing;
+	public static MemSys memSys;
 	public static OI oi;
+
+	// vision
+	private static final int IMG_WIDTH = 320;
+	private static final int IMG_HEIGHT = 240;
+	private static RobotDrive wpiDrive;
+
+	VisionThread visionThread;
+	private double centerX = 0.0;
+	private Rect rect;
+
+	private final Object imgLock = new Object();
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -36,8 +58,30 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		// init subsystems
+		driveTrain = new Drivetrain();
+		lifter = new Lifter();
+		turret = new Turret();
+		turretRing = new TurretRing();
+		memSys = new MemSys();
 		oi = new OI();
-		CameraServer.getInstance().startAutomaticCapture("TurretCam", "/dev/video0");
+		// start vision thread
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(getImgWidth(), IMG_HEIGHT);
+		camera.setExposureManual(15);
+		camera.setWhiteBalanceManual(VideoCamera.WhiteBalance.kFixedIndoor);
+		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
+			if (!pipeline.findContoursOutput().isEmpty()) {
+				Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
+				synchronized (imgLock) {
+					rect = r;
+					centerX = r.x + (r.width / 2);
+				}
+			}
+
+		});
+		visionThread.start();
+		wpiDrive = driveTrain.wpiDrive;
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
@@ -71,7 +115,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		try {
+			autonomousCommand = chooser.getSelected();
+		} catch (NullPointerException e) {
+			// god damn NPEs, we're gonna make Java great again folks
+			autonomousCommand = null;
+		}
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -90,7 +139,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		// commented out for vision
+		// Scheduler.getInstance().run();
+		double centerX;
+		Rect rect;
+		synchronized (imgLock) {
+			centerX = this.centerX;
+			rect = this.rect;
+		}
+		double turn = centerX - (getImgWidth() / 2);
+		// drive with turn
+		System.out.println("Turn value: " + turn * 0.005);
+		System.out.println("centerX: " + centerX);
+		System.out.println("Rect r: " + rect.toString());
+		wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 	}
 
 	@Override
@@ -108,6 +170,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		double centerX;
+		synchronized (imgLock) {
+			centerX = this.centerX;
+		}
+		memSys.setCenterX(centerX);
 		Scheduler.getInstance().run();
 	}
 
@@ -117,5 +184,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+
+	public double getCenterX() {
+		return centerX;
+	}
+
+	/**
+	 * @return the imgWidth
+	 */
+	public static int getImgWidth() {
+		return IMG_WIDTH;
 	}
 }

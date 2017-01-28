@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3494.robot.commands;
+package org.usfirst.frc.team3494.robot.commands.turret;
 
 import org.usfirst.frc.team3494.robot.Robot;
 
@@ -7,28 +7,27 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Drive extends Command {
+public class ResetTurretEnc extends Command {
 
-	public Drive() {
+	public ResetTurretEnc() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.driveTrain);
+		requires(Robot.turretRing);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		System.out.println("Resetting turret encoder");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double left = Robot.oi.flight_one.getRawAxis(1) * -1;
-		double right = Robot.oi.flight_two.getRawAxis(1);
-		Robot.driveTrain.TankDrive(left, right);
+		Robot.turretRing.resetTurret_enc();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true

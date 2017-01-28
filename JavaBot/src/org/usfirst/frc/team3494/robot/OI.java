@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
-import org.usfirst.frc.team3494.robot.commands.lifter.AutoLift;
+import org.usfirst.frc.team3494.robot.commands.turret.AimbotCommand;
+import org.usfirst.frc.team3494.robot.commands.turret.ResetTurretEnc;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -22,6 +23,9 @@ public class OI {
 	public final Joystick flight_two = new Joystick(1);
 	public final XboxController xbox = new XboxController(2);
 	private final JoystickButton xbox_a = new JoystickButton(xbox, 1);
+	private final JoystickButton xbox_b = new JoystickButton(xbox, 2);
+	private final JoystickButton xbox_lb = new JoystickButton(xbox, 5);
+	private final JoystickButton xbox_start = new JoystickButton(xbox, 7);
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
@@ -42,10 +46,19 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	public OI() {
-		getXbox_a().whenPressed(new AutoLift(true));
+		xbox_a.whileHeld(new AimbotCommand());
+		xbox_start.whenPressed(new ResetTurretEnc());
 	}
 
 	public JoystickButton getXbox_a() {
 		return xbox_a;
+	}
+
+	public JoystickButton getXbox_b() {
+		return xbox_b;
+	}
+
+	public JoystickButton getXbox_lb() {
+		return xbox_lb;
 	}
 }
