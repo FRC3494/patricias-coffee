@@ -10,11 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnTurret extends Command {
 
-	public TurnTurret() {
+	private DriveDirections dir;
+
+	public TurnTurret(DriveDirections D) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		super("TurnTurret");
-		requires(Robot.turretRing);
+		requires(Robot.turret);
+		this.dir = D;
 	}
 
 	// Called just before this Command runs the first time
@@ -23,22 +26,17 @@ public class TurnTurret extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.oi.xbox.getXButton()) {
-			Robot.turretRing.turnTurret(DriveDirections.LEFT);
-		} else if (Robot.oi.xbox.getBButton()) {
-			Robot.turretRing.turnTurret(DriveDirections.RIGHT);
-		} else {
-			Robot.turretRing.turnTurret(DriveDirections.STOP);
-		}
+		Robot.turret.turnTurret(this.dir);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return !Robot.oi.getXbox_b().get() && !Robot.oi.getXbox_x().get();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.turret.turnTurret(DriveDirections.STOP);
 	}
 
 	// Called when another command which requires one or more of the same

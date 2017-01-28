@@ -7,7 +7,6 @@ import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.MemSys;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
-import org.usfirst.frc.team3494.robot.subsystems.TurretRing;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
 import edu.wpi.cscore.UsbCamera;
@@ -34,7 +33,6 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain driveTrain;
 	public static Lifter lifter;
 	public static Turret turret;
-	public static TurretRing turretRing;
 	public static MemSys memSys;
 	public static OI oi;
 
@@ -62,7 +60,6 @@ public class Robot extends IterativeRobot {
 		driveTrain = new Drivetrain();
 		lifter = new Lifter();
 		turret = new Turret();
-		turretRing = new TurretRing();
 		memSys = new MemSys();
 		oi = new OI();
 		// start vision thread
@@ -118,7 +115,7 @@ public class Robot extends IterativeRobot {
 		try {
 			autonomousCommand = chooser.getSelected();
 		} catch (NullPointerException e) {
-			// god damn NPEs, we're gonna make Java great again folks
+			System.out.println("Caught NPE in auto init. Is there a button chooser on the SmartDashboard?");
 			autonomousCommand = null;
 		}
 
@@ -130,8 +127,9 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
 	}
 
 	/**
@@ -149,9 +147,6 @@ public class Robot extends IterativeRobot {
 		}
 		double turn = centerX - (getImgWidth() / 2);
 		// drive with turn
-		System.out.println("Turn value: " + turn * 0.005);
-		System.out.println("centerX: " + centerX);
-		System.out.println("Rect r: " + rect.toString());
 		wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 	}
 
@@ -190,9 +185,6 @@ public class Robot extends IterativeRobot {
 		return centerX;
 	}
 
-	/**
-	 * @return the imgWidth
-	 */
 	public static int getImgWidth() {
 		return IMG_WIDTH;
 	}

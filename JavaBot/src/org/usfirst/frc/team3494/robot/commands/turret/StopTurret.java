@@ -6,15 +6,15 @@ import org.usfirst.frc.team3494.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * if you're reading this doc because you don't know what this class does you're
+ * significantly screwed
  */
-public class AimbotCommand extends Command {
+public class StopTurret extends Command {
 
-	public AimbotCommand() {
+	public StopTurret() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.turret);
-		requires(Robot.memSys);
 	}
 
 	// Called just before this Command runs the first time
@@ -23,25 +23,7 @@ public class AimbotCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double centerX = Robot.memSys.getCenterX();
-		System.out.println("centerX: " + centerX);
-		double centerDist = centerX - (Robot.getImgWidth() / 2);
-		/*
-		 * if (centerX > 75 || centerX < -75) { if (centerDist < 0) {
-		 * Robot.turretRing.turnTurret(DriveDirections.LEFT); } else if
-		 * (centerDist > 0) {
-		 * Robot.turretRing.turnTurret(DriveDirections.RIGHT); } } else
-		 */
-		double turnpower = Math.abs(centerDist * 0.006);
-		if (turnpower > 0.15) {
-			if (centerDist < 0) {
-				Robot.turret.preciseTurret(turnpower, DriveDirections.LEFT);
-			} else {
-				Robot.turret.preciseTurret(turnpower, DriveDirections.RIGHT);
-			}
-		} else {
-			Robot.turret.turnTurret(DriveDirections.STOP);
-		}
+		Robot.turret.turnTurret(DriveDirections.STOP);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
