@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Turret subsystem. Contains all methods for controlling the robot's turret.
+ * 
+ * @since 0.0.0
  */
 public class Turret extends Subsystem {
 	private Victor shooter_top = new Victor(RobotMap.shooterTop);
@@ -26,6 +28,7 @@ public class Turret extends Subsystem {
 		turret_enc.reset();
 	}
 
+	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -48,9 +51,9 @@ public class Turret extends Subsystem {
 	 * Turn the turret.
 	 * 
 	 * @param dir
-	 *            The direction to turn in. Please oh please only use
-	 *            {@link DriveDirections#LEFT}, {@link DriveDirections#RIGHT} or
-	 *            {@link DriveDirections#STOP}
+	 *            The direction to turn in. Only use
+	 *            {@link DriveDirections#LEFT} or {@link DriveDirections#RIGHT}.
+	 *            Any other value will stop the turret.
 	 */
 	public void turnTurret(DriveDirections dir) {
 		if (dir.equals(DriveDirections.LEFT)) {
@@ -62,6 +65,17 @@ public class Turret extends Subsystem {
 		}
 	}
 
+	/**
+	 * Turns the turret at a given speed.
+	 * 
+	 * @param power
+	 *            The power to turn the turret at. This should be
+	 *            <em>positive</em>, regardless of the direction to turn in.
+	 * @param dir
+	 *            The direction to turn in. This should be either
+	 *            {@link DriveDirections#LEFT} or {@link DriveDirections#RIGHT}.
+	 *            Anything else will stop the turret.
+	 */
 	public void preciseTurret(double power, DriveDirections dir) {
 		if (dir.equals(DriveDirections.LEFT)) {
 			turret_con.set(-power);
@@ -72,9 +86,6 @@ public class Turret extends Subsystem {
 		}
 	}
 
-	/**
-	 * @return the turret_enc
-	 */
 	public Encoder getTurret_enc() {
 		return turret_enc;
 	}
@@ -82,4 +93,5 @@ public class Turret extends Subsystem {
 	public void resetTurret_enc() {
 		turret_enc.reset();
 	}
+
 }
