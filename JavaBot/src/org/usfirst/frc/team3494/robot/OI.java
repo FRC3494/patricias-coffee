@@ -2,6 +2,7 @@ package org.usfirst.frc.team3494.robot;
 
 import org.usfirst.frc.team3494.robot.commands.turret.AimbotCommand;
 import org.usfirst.frc.team3494.robot.commands.turret.ResetTurretEnc;
+import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.commands.turret.TurnTurret;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -48,8 +49,9 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	public OI() {
-		xbox_a.whileHeld(new AimbotCommand());
 		xbox_start.whenPressed(new ResetTurretEnc());
+		xbox_a.whileHeld(new AimbotCommand());
+		xbox_a.whenReleased(new StopTurret());
 		xbox_x.whenPressed(new TurnTurret(DriveDirections.LEFT));
 		xbox_b.whenPressed(new TurnTurret(DriveDirections.RIGHT));
 	}
