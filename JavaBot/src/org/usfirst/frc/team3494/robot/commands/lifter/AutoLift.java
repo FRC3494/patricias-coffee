@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Lift based on values passed in on construction. Good for auto programs(?)
  * @category commands
+ * @category lifter
  */
 public class AutoLift extends Command {
 

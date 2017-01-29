@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * 
  * @see Lifter
  * @category commands
+ * @category lifter
  */
 public class Lift extends Command {
 

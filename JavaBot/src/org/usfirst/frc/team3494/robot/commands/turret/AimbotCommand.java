@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * 
  * @since 0.0.0
  * @category commands
+ * @category shooter
  */
 public class AimbotCommand extends Command {
 

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * @category commands
+ * @category shooter
  */
 public class ResetTurretEnc extends Command {
 
