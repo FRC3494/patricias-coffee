@@ -7,5 +7,5 @@ package org.usfirst.frc.team3494.robot;
  * @category Utils
  */
 public enum EncoderGets {
-	RAWCOUNT, INCHES;
+	RAWCOUNT, MILLIMETERS;
 }

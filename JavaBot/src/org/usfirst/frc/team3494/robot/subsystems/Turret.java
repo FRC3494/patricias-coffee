@@ -95,18 +95,28 @@ public class Turret extends Subsystem {
 		turret_enc.reset();
 	}
 
+	/**
+	 * Gets the distance from zero of the tiny little gear on the output shaft.
+	 * TODO: use gear ratio to get actual turret distance.
+	 * 
+	 * @param get
+	 *            The unit the returned data should be in.
+	 * @see org.usfirst.frc.team3494.robot.EncoderGets
+	 * @return The distance from the encoder's zero position, as a double.
+	 */
 	public double getTurretEncDistance(EncoderGets get) {
 		if (get.equals(EncoderGets.RAWCOUNT)) {
 			return turret_enc.get();
-		} else if (get.equals(EncoderGets.INCHES)) {
+		} else if (get.equals(EncoderGets.MILLIMETERS)) {
 			// distance = wheel circumfrence * wheel rotations = (pi * d) * # of
 			// counts/N * 360, assuming encoder on output shaft
-			// if there is a gearbox in the way, distance = 
+			// if there is a gearbox in the way, distance =
 			double pi = Math.PI;
-			int N = 420; // Pulses per revolution :flag_fr: 
+			int N = 420; // Pulses per revolution :flag_fr:
 			double d = 18.34; // diameter of gear on output shaft
-			return ((pi * d) * (turret_enc.get()/N) * 360);
+			return ((pi * d) * (turret_enc.get() / N) * 360);
 		}
+		// i don't know how you got here but you should probably leave
 		return 0;
 	}
 
