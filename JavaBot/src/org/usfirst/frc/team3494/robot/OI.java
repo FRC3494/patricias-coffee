@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot;
 
 import org.usfirst.frc.team3494.robot.commands.turret.AimbotCommand;
+import org.usfirst.frc.team3494.robot.commands.turret.GoHome;
 import org.usfirst.frc.team3494.robot.commands.turret.ResetTurretEnc;
 import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.commands.turret.TurnTurret;
@@ -27,6 +28,7 @@ public class OI {
 	private final JoystickButton xbox_a = new JoystickButton(xbox, 1);
 	private final JoystickButton xbox_b = new JoystickButton(xbox, 2);
 	private final JoystickButton xbox_x = new JoystickButton(xbox, 3);
+	private final JoystickButton xbox_y = new JoystickButton(xbox, 4);
 	private final JoystickButton xbox_lb = new JoystickButton(xbox, 5);
 	private final JoystickButton xbox_start = new JoystickButton(xbox, 7);
 	// There are a few additional built in buttons you can use. Additionally,
@@ -54,6 +56,7 @@ public class OI {
 		xbox_a.whenReleased(new StopTurret());
 		xbox_x.whenPressed(new TurnTurret(DriveDirections.LEFT));
 		xbox_b.whenPressed(new TurnTurret(DriveDirections.RIGHT));
+		xbox_y.whenPressed(new GoHome());
 	}
 
 	public JoystickButton getXbox_a() {
