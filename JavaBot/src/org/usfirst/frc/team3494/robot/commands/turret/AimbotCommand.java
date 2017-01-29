@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * @see org.usfirst.frc.team3494.robot.subsystems.Turret
  * 
  * @since 0.0.0
+ * @category commands
  */
 public class AimbotCommand extends Command {
 

@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Default command for shooter
+ * @category commands
+ * @category shooter
  */
 public class Shoot extends Command {
 

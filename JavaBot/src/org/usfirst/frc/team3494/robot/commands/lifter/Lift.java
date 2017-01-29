@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * Lifter subsystem default command
  * 
  * @see Lifter
+ * @category commands
  */
 public class Lift extends Command {
 
