@@ -6,8 +6,7 @@ import org.usfirst.frc.team3494.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * @category commands
- * @category shooter
+ * 
  */
 public class TurnTurret extends Command {
 

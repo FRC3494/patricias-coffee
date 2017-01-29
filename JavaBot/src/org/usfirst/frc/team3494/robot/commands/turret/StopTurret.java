@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * if you're reading this doc because you don't know what this class does you're
  * significantly screwed
- * @category commands
- * @category shooter
  */
 public class StopTurret extends Command {
 

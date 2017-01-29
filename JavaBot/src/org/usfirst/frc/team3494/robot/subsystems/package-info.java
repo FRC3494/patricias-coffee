@@ -1,7 +1,6 @@
 /**
  * Package for subsystem classes.
  * 
- * @category subsystems
  * @since 0.0.0
  */
 

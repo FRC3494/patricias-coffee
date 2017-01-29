@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Lift subsystem. Contains all methods for controlling the robot's ball lifter.
  * 
  * @since 0.0.0
- * @category subsystems
  */
 public class Lifter extends Subsystem {
 

@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * @category commands
- * @category drivetrain
+ *
  */
 public class Drive extends Command {
 

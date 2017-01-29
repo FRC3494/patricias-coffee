@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * that.
  * 
  * @since 0.0.0
- * @category drivetrain
- * @category subsystems
  */
 public class Drivetrain extends Subsystem {
 	public Victor drive_left = new Victor(RobotMap.drive_left);
@@ -49,7 +47,6 @@ public class Drivetrain extends Subsystem {
 	 * @param right
 	 *            The power to drive the right side. Should be a {@code double}
 	 *            between 0 and 1.
-	 * @return void
 	 */
 	public void TankDrive(double left, double right) {
 		if (left > RobotMap.DRIVE_TOLERANCE && right > RobotMap.DRIVE_TOLERANCE) {

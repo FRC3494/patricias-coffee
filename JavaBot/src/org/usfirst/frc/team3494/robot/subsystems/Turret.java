@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Turret subsystem. Contains all methods for controlling the robot's turret.
  * 
  * @since 0.0.0
- * @category subsystems
- * @category shooter
  */
 public class Turret extends Subsystem {
 	private Victor shooter_top = new Victor(RobotMap.shooterTop);
