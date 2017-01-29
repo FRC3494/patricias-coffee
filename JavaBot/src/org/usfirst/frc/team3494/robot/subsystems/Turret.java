@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import org.usfirst.frc.team3494.robot.DriveDirections;
+import org.usfirst.frc.team3494.robot.EncoderGets;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.turret.Shoot;
 
@@ -92,6 +93,16 @@ public class Turret extends Subsystem {
 
 	public void resetTurret_enc() {
 		turret_enc.reset();
+	}
+
+	public int getTurretEncDistance(EncoderGets get) {
+		if (get.equals(EncoderGets.RAWCOUNT)) {
+			return turret_enc.get();
+		} else if (get.equals(EncoderGets.INCHES)) {
+			// distance = wheel circumfrence * wheel rotations = (pi * d) * # of
+			// counts/N * 360, assuming encoder on output shaft
+		}
+		return 0;
 	}
 
 }
