@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team3494.robot;
 
 import org.opencv.core.Rect;
