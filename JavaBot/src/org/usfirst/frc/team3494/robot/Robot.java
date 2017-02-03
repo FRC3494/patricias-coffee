@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3494.robot;
 
+import java.util.ArrayList;
+
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
@@ -42,6 +45,7 @@ public class Robot extends IterativeRobot {
 
 	VisionThread visionThread;
 	private double centerX = 0.0;
+	private ArrayList<MatOfPoint> filteredContours;
 
 	private final Object imgLock = new Object();
 
@@ -70,9 +74,9 @@ public class Robot extends IterativeRobot {
 				Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
 				synchronized (imgLock) {
 					centerX = r.x + (r.width / 2);
+					filteredContours = pipeline.findContoursOutput();
 				}
 			}
-
 		});
 		visionThread.start();
 		wpiDrive = driveTrain.wpiDrive;
@@ -184,5 +188,13 @@ public class Robot extends IterativeRobot {
 
 	public static int getImgWidth() {
 		return IMG_WIDTH;
+	}
+
+	public ArrayList<MatOfPoint> getFilteredContours() {
+		return filteredContours;
+	}
+
+	public void setFilteredContours(ArrayList<MatOfPoint> filteredContours) {
+		this.filteredContours = filteredContours;
 	}
 }
