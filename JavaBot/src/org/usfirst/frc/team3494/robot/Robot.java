@@ -3,6 +3,7 @@ package org.usfirst.frc.team3494.robot;
 import java.util.ArrayList;
 
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
@@ -70,11 +71,22 @@ public class Robot extends IterativeRobot {
 		camera.setExposureManual(15);
 		camera.setWhiteBalanceManual(VideoCamera.WhiteBalance.kFixedIndoor);
 		visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
-			if (!pipeline.findContoursOutput().isEmpty()) {
+			if (!pipeline.filterContoursOutput().isEmpty()) {
+				MatOfPoint firstCont = pipeline.filterContoursOutput().get(0);
+				MatOfPoint secondCont = pipeline.filterContoursOutput().get(1);
+				double average_y_one = 0;
+				for (Point p : firstCont.toList()) {
+					average_y_one += p.y;
+				}
+				double average_y_two = 0;
+				for (Point p : secondCont.toList()) {
+					average_y_two += p.y;
+				}
+				
 				Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
 				synchronized (imgLock) {
 					centerX = r.x + (r.width / 2);
-					filteredContours = pipeline.findContoursOutput();
+					filteredContours = pipeline.filterContoursOutput();
 				}
 			}
 		});
