@@ -82,7 +82,9 @@ public class Robot extends IterativeRobot {
 				for (Point p : secondCont.toList()) {
 					average_y_two += p.y;
 				}
-				
+				// divide by number of points to give actual average
+				average_y_two = average_y_two / secondCont.toList().size();
+				average_y_one = average_y_one / firstCont.toList().size();
 				Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
 				synchronized (imgLock) {
 					centerX = r.x + (r.width / 2);
