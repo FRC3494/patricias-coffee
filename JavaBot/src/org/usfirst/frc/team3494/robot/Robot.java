@@ -160,26 +160,23 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = null;
 		}
 
-
-		 String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 try {
-			 Object objectselection = SmartDashboard.getData("Auto Selector");
-		 } catch (Exception e) {
-			 System.out.println("Oh no! Could not load the auto command!");
-			 System.out.println("Stacktrace:");
-			 e.printStackTrace();
-		 } finally {
-			 
-		 }
-		 switch(autoSelected) {
-		 	case "My Auto": 
-		 		autonomousCommand = new StopTurret();
-		 		break;
-		 	case "Default Auto":
-		 	default:
-		 		autonomousCommand = null;
-		 		break;
-		 }
+		String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+		try {
+			Object objectselection = SmartDashboard.getData("Auto Selector");
+		} catch (Exception e) {
+			System.out.println("Oh no! Could not load the auto command!");
+			System.out.println("Stacktrace:");
+			e.printStackTrace();
+		}
+		switch (autoSelected) {
+		case "My Auto":
+			autonomousCommand = new StopTurret();
+			break;
+		case "Default Auto":
+		default:
+			autonomousCommand = null;
+			break;
+		}
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
