@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTableKeyNotDefined;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
@@ -160,23 +159,15 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = null;
 		}
 
-		String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+		Command cmdSelected = null;
 		try {
-			Object objectselection = SmartDashboard.getData("Auto Selector");
+			cmdSelected = (Command) SmartDashboard.getData("Auto Selector");
 		} catch (Exception e) {
 			System.out.println("Oh no! Could not load the auto command!");
 			System.out.println("Stacktrace:");
 			e.printStackTrace();
 		}
-		switch (autoSelected) {
-		case "My Auto":
-			autonomousCommand = new StopTurret();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = null;
-			break;
-		}
+		autonomousCommand = cmdSelected;
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
@@ -189,17 +180,17 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		// commented out for vision
-		// Scheduler.getInstance().run();
-		double centerX;
-		// Rect rect;
-		synchronized (imgLock) {
-			centerX = this.centerX;
-			// rect = this.rect;
+		if (autonomousCommand != null) {
+			Scheduler.getInstance().run();
+		} else {
+			double centerX;
+			synchronized (imgLock) {
+				centerX = this.centerX;
+			}
+			double turn = centerX - (getImgWidth() / 2);
+			// drive with turn
+			wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 		}
-		double turn = centerX - (getImgWidth() / 2);
-		// drive with turn
-		wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 	}
 
 	@Override
