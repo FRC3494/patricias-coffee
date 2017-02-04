@@ -66,7 +66,9 @@ public class Robot extends IterativeRobot {
 
 	VisionThread visionThread;
 	private double centerX = 0.0;
+	@SuppressWarnings("unused")
 	private ArrayList<MatOfPoint> filteredContours;
+	private ArrayList<Double> averages;
 
 	private final Object imgLock = new Object();
 
@@ -109,6 +111,9 @@ public class Robot extends IterativeRobot {
 				synchronized (imgLock) {
 					centerX = r.x + (r.width / 2);
 					filteredContours = pipeline.filterContoursOutput();
+					// add averages to list
+					averages.add(average_y_one);
+					averages.add(average_y_two);
 				}
 			}
 		});
