@@ -32,11 +32,31 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	/**
+	 * Instance of {@link Drivetrain}. use this for {@code requires()}
+	 * statements and such.
+	 */
 	public static Drivetrain driveTrain;
+	/**
+	 * Instance of {@link Lifter}. use this for {@code requires()} statements
+	 * and such.
+	 */
 	public static Lifter lifter;
+	/**
+	 * Instance of {@link Turret}. use this for {@code requires()} statements
+	 * and such.
+	 */
 	public static Turret turret;
+	/**
+	 * Instance of {@link MemSys}. use this for {@code requires()} statements
+	 * and such. <b>Warning: </b> MemSys is where we hid all the parallelism
+	 * demons. It's dangerous, hacky, and generally bad.
+	 */
 	public static MemSys memSys;
+	/**
+	 * Instance of {@link OI}. No subsystem should require this. However, you
+	 * can read button values from it.
+	 */
 	public static OI oi;
 
 	// vision
