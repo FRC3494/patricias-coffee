@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import org.usfirst.frc.team3494.robot.DriveDirections;
-import org.usfirst.frc.team3494.robot.EncoderGets;
+import org.usfirst.frc.team3494.robot.UnitTypes;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.turret.Shoot;
 
@@ -97,17 +97,17 @@ public class Turret extends Subsystem {
 
 	/**
 	 * Gets the distance from zero of the tiny little gear on the output shaft.
-	 * TODO: use gear ratio to get actual turret distance.
 	 * 
 	 * @param get
-	 *            The unit the returned data should be in.
-	 * @see org.usfirst.frc.team3494.robot.EncoderGets
+	 *            The unit the returned data should be in. Doesn't take pixels,
+	 *            because...why?
+	 * @see org.usfirst.frc.team3494.robot.UnitTypes
 	 * @return The distance from the encoder's zero position, as a double.
 	 */
-	public double getTurretEncDistance(EncoderGets get) {
-		if (get.equals(EncoderGets.RAWCOUNT)) {
+	public double getTurretEncDistance(UnitTypes get) {
+		if (get.equals(UnitTypes.RAWCOUNT)) {
 			return turret_enc.get();
-		} else if (get.equals(EncoderGets.MILLIMETERS)) {
+		} else if (get.equals(UnitTypes.MILLIMETERS)) {
 			// distance = wheel circumfrence * wheel rotations = (pi * d) * # of
 			// counts/N * 360, assuming encoder on output shaft
 			// if there is a gearbox in the way, distance =
@@ -115,9 +115,10 @@ public class Turret extends Subsystem {
 			int N = 420; // Pulses per revolution :flag_fr:
 			double d = 18.34; // diameter of gear on output shaft
 			return ((pi * d) * (turret_enc.get() / N) * 360);
+		} else {
+			// i don't know how you got here but you should probably leave
+			return 0;
 		}
-		// i don't know how you got here but you should probably leave
-		return 0;
 	}
 
 }
