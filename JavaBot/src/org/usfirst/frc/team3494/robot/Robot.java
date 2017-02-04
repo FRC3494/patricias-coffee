@@ -6,6 +6,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.MemSys;
@@ -20,9 +21,10 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTableKeyNotDefined;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -119,9 +121,8 @@ public class Robot extends IterativeRobot {
 		});
 		visionThread.start();
 		wpiDrive = driveTrain.wpiDrive;
-		// chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		// SmartDashboard.putData("Auto mode", chooser);
+		chooser.addDefault("Default Auto", new StopTurret());
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -159,12 +160,26 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = null;
 		}
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+
+		 String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+		 try {
+			 Object objectselection = SmartDashboard.getData("Auto Selector");
+		 } catch (Exception e) {
+			 System.out.println("Oh no! Could not load the auto command!");
+			 System.out.println("Stacktrace:");
+			 e.printStackTrace();
+		 } finally {
+			 
+		 }
+		 switch(autoSelected) {
+		 	case "My Auto": 
+		 		autonomousCommand = new StopTurret();
+		 		break;
+		 	case "Default Auto":
+		 	default:
+		 		autonomousCommand = null;
+		 		break;
+		 }
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
