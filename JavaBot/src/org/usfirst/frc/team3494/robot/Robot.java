@@ -223,12 +223,4 @@ public class Robot extends IterativeRobot {
 	public static int getImgWidth() {
 		return IMG_WIDTH;
 	}
-
-	public ArrayList<MatOfPoint> getFilteredContours() {
-		return filteredContours;
-	}
-
-	public void setFilteredContours(ArrayList<MatOfPoint> filteredContours) {
-		this.filteredContours = filteredContours;
-	}
 }
