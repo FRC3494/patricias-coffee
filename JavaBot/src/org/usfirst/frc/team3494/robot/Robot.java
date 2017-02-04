@@ -6,6 +6,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.MemSys;
@@ -21,8 +22,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,11 +33,31 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	/**
+	 * Instance of {@link Drivetrain}. use this for {@code requires()}
+	 * statements and such.
+	 */
 	public static Drivetrain driveTrain;
+	/**
+	 * Instance of {@link Lifter}. use this for {@code requires()} statements
+	 * and such.
+	 */
 	public static Lifter lifter;
+	/**
+	 * Instance of {@link Turret}. use this for {@code requires()} statements
+	 * and such.
+	 */
 	public static Turret turret;
+	/**
+	 * Instance of {@link MemSys}. use this for {@code requires()} statements
+	 * and such. <b>Warning: </b> MemSys is where we hid all the parallelism
+	 * demons. It's dangerous, hacky, and generally bad.
+	 */
 	public static MemSys memSys;
+	/**
+	 * Instance of {@link OI}. No subsystem should require this. However, you
+	 * can read button values from it.
+	 */
 	public static OI oi;
 
 	// vision
@@ -46,7 +67,9 @@ public class Robot extends IterativeRobot {
 
 	VisionThread visionThread;
 	private double centerX = 0.0;
+	@SuppressWarnings("unused")
 	private ArrayList<MatOfPoint> filteredContours;
+	private ArrayList<Double> averages;
 
 	private final Object imgLock = new Object();
 
@@ -82,19 +105,23 @@ public class Robot extends IterativeRobot {
 				for (Point p : secondCont.toList()) {
 					average_y_two += p.y;
 				}
-				
+				// divide by number of points to give actual average
+				average_y_two = average_y_two / secondCont.toList().size();
+				average_y_one = average_y_one / firstCont.toList().size();
 				Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
 				synchronized (imgLock) {
 					centerX = r.x + (r.width / 2);
 					filteredContours = pipeline.filterContoursOutput();
+					// add averages to list
+					averages.add(average_y_one);
+					averages.add(average_y_two);
 				}
 			}
 		});
 		visionThread.start();
 		wpiDrive = driveTrain.wpiDrive;
-		// chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		// SmartDashboard.putData("Auto mode", chooser);
+		chooser.addDefault("Default Auto", new StopTurret());
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -132,12 +159,15 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = null;
 		}
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		Command cmdSelected = null;
+		try {
+			cmdSelected = (Command) SmartDashboard.getData("Auto Selector");
+		} catch (Exception e) {
+			System.out.println("Oh no! Could not load the auto command!");
+			System.out.println("Stacktrace:");
+			e.printStackTrace();
+		}
+		autonomousCommand = cmdSelected;
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
@@ -150,17 +180,17 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		// commented out for vision
-		// Scheduler.getInstance().run();
-		double centerX;
-		// Rect rect;
-		synchronized (imgLock) {
-			centerX = this.centerX;
-			// rect = this.rect;
+		if (autonomousCommand != null) {
+			Scheduler.getInstance().run();
+		} else {
+			double centerX;
+			synchronized (imgLock) {
+				centerX = this.centerX;
+			}
+			double turn = centerX - (getImgWidth() / 2);
+			// drive with turn
+			wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 		}
-		double turn = centerX - (getImgWidth() / 2);
-		// drive with turn
-		wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
 	}
 
 	@Override
@@ -200,13 +230,5 @@ public class Robot extends IterativeRobot {
 
 	public static int getImgWidth() {
 		return IMG_WIDTH;
-	}
-
-	public ArrayList<MatOfPoint> getFilteredContours() {
-		return filteredContours;
-	}
-
-	public void setFilteredContours(ArrayList<MatOfPoint> filteredContours) {
-		this.filteredContours = filteredContours;
 	}
 }
