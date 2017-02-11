@@ -6,7 +6,14 @@ import org.usfirst.frc.team3494.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Command to automatically point the turret towards a piece of retro-reflective
+ * material (more exactly, to where ever {@link Robot#getCenterX()} returns.)
+ * This command will <em>not</em> stop the turret motors once the command stops
+ * running.
+ * 
+ * @see org.usfirst.frc.team3494.robot.subsystems.Turret
+ * 
+ * @since 0.0.0
  */
 public class AimbotCommand extends Command {
 
@@ -18,10 +25,12 @@ public class AimbotCommand extends Command {
 	}
 
 	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	@Override
 	protected void execute() {
 		double centerX = Robot.memSys.getCenterX();
 		System.out.println("centerX: " + centerX);
@@ -45,16 +54,19 @@ public class AimbotCommand extends Command {
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
 		return true;
 	}
 
 	// Called once after isFinished returns true
+	@Override
 	protected void end() {
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 	}
 }

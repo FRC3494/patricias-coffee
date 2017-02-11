@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import org.usfirst.frc.team3494.robot.DriveDirections;
+import org.usfirst.frc.team3494.robot.UnitTypes;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.turret.Shoot;
 
@@ -9,7 +10,9 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Turret subsystem. Contains all methods for controlling the robot's turret.
+ * 
+ * @since 0.0.0
  */
 public class Turret extends Subsystem {
 	private Victor shooter_top = new Victor(RobotMap.shooterTop);
@@ -26,6 +29,7 @@ public class Turret extends Subsystem {
 		turret_enc.reset();
 	}
 
+	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -48,9 +52,9 @@ public class Turret extends Subsystem {
 	 * Turn the turret.
 	 * 
 	 * @param dir
-	 *            The direction to turn in. Please oh please only use
-	 *            {@link DriveDirections#LEFT}, {@link DriveDirections#RIGHT} or
-	 *            {@link DriveDirections#STOP}
+	 *            The direction to turn in. Only use
+	 *            {@link DriveDirections#LEFT} or {@link DriveDirections#RIGHT}.
+	 *            Any other value will stop the turret.
 	 */
 	public void turnTurret(DriveDirections dir) {
 		if (dir.equals(DriveDirections.LEFT)) {
@@ -62,6 +66,17 @@ public class Turret extends Subsystem {
 		}
 	}
 
+	/**
+	 * Turns the turret at a given speed.
+	 * 
+	 * @param power
+	 *            The power to turn the turret at. This should be
+	 *            <em>positive</em>, regardless of the direction to turn in.
+	 * @param dir
+	 *            The direction to turn in. This should be either
+	 *            {@link DriveDirections#LEFT} or {@link DriveDirections#RIGHT}.
+	 *            Anything else will stop the turret.
+	 */
 	public void preciseTurret(double power, DriveDirections dir) {
 		if (dir.equals(DriveDirections.LEFT)) {
 			turret_con.set(-power);
@@ -72,9 +87,6 @@ public class Turret extends Subsystem {
 		}
 	}
 
-	/**
-	 * @return the turret_enc
-	 */
 	public Encoder getTurret_enc() {
 		return turret_enc;
 	}
@@ -82,4 +94,31 @@ public class Turret extends Subsystem {
 	public void resetTurret_enc() {
 		turret_enc.reset();
 	}
+
+	/**
+	 * Gets the distance from zero of the tiny little gear on the output shaft.
+	 * 
+	 * @param get
+	 *            The unit the returned data should be in. Doesn't take pixels,
+	 *            because...why?
+	 * @see org.usfirst.frc.team3494.robot.UnitTypes
+	 * @return The distance from the encoder's zero position, as a double.
+	 */
+	public double getTurretEncDistance(UnitTypes get) {
+		if (get.equals(UnitTypes.RAWCOUNT)) {
+			return turret_enc.get();
+		} else if (get.equals(UnitTypes.MILLIMETERS)) {
+			// distance = wheel circumfrence * wheel rotations = (pi * d) * # of
+			// counts/N * 360, assuming encoder on output shaft
+			// if there is a gearbox in the way, distance =
+			double pi = Math.PI;
+			int N = 420; // Pulses per revolution :flag_fr:
+			double d = 18.34; // diameter of gear on output shaft
+			return ((pi * d) * (turret_enc.get() / N) * 360);
+		} else {
+			// i don't know how you got here but you should probably leave
+			return 0;
+		}
+	}
+
 }
