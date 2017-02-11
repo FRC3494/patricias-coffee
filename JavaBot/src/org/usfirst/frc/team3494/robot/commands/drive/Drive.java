@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Default command for the
+ * {@link org.usfirst.frc.team3494.robot.subsystems.Drivetrain} subsystem.
+ * Drives the Drivetrain by the Xbox controller.
  */
 public class Drive extends Command {
 

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3494.robot.commands.turret;
 
 import org.usfirst.frc.team3494.robot.DriveDirections;
-import org.usfirst.frc.team3494.robot.EncoderGets;
+import org.usfirst.frc.team3494.robot.UnitTypes;
 import org.usfirst.frc.team3494.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,7 +28,7 @@ public class GoHome extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		double location = Robot.turret.getTurretEncDistance(EncoderGets.MILLIMETERS);
+		double location = Robot.turret.getTurretEncDistance(UnitTypes.MILLIMETERS);
 		if (location > 0) {
 			Robot.turret.turnTurret(DriveDirections.LEFT);
 		} else {
@@ -39,7 +39,7 @@ public class GoHome extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return Robot.turret.getTurretEncDistance(EncoderGets.MILLIMETERS) == 0;
+		return Robot.turret.getTurretEncDistance(UnitTypes.MILLIMETERS) == 0;
 	}
 
 	// Called once after isFinished returns true
