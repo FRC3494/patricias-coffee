@@ -17,6 +17,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -59,6 +60,8 @@ public class Robot extends IterativeRobot {
 	 * can read button values from it.
 	 */
 	public static OI oi;
+	
+	public static Preferences prefs;
 
 	// vision
 	private static final int IMG_WIDTH = 320;
@@ -88,6 +91,7 @@ public class Robot extends IterativeRobot {
 		turret = new Turret();
 		memSys = new MemSys();
 		oi = new OI();
+		prefs = Preferences.getInstance();
 		// start vision thread
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(getImgWidth(), IMG_HEIGHT);
