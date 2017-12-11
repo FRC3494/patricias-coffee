@@ -85,6 +85,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		System.out.println("Test print please ignore");
 		// init subsystems
 		driveTrain = new Drivetrain();
 		lifter = new Lifter();
