@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -148,13 +147,10 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         try {
             autonomousCommand = chooser.getSelected();
+            autonomousCommand.start();
         } catch (NullPointerException e) {
             System.out.println("Caught NPE in auto init. Is there a button chooser on the SmartDashboard?");
             autonomousCommand = null;
-        }
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null) {
-            autonomousCommand.start();
         }
     }
 
