@@ -65,9 +65,8 @@ public class Robot extends IterativeRobot {
     // vision
     private static final int IMG_WIDTH = 320;
     private static final int IMG_HEIGHT = 240;
-    private static DifferentialDrive wpiDrive;
 
-    VisionThread visionThread;
+    private VisionThread visionThread;
     private double centerX = 0.0;
     @SuppressWarnings("unused")
     private ArrayList<MatOfPoint> filteredContours;
@@ -123,7 +122,6 @@ public class Robot extends IterativeRobot {
             }
         });
         visionThread.start();
-        wpiDrive = driveTrain.wpiDrive;
         chooser.addDefault("Default Auto", new StopTurret());
         SmartDashboard.putData("Auto mode", chooser);
     }
@@ -182,7 +180,7 @@ public class Robot extends IterativeRobot {
             }
             double turn = centerX - (getImgWidth() / 2);
             // drive with turn
-            wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
+            Robot.driveTrain.wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
         }
     }
 
