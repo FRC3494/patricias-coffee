@@ -112,7 +112,9 @@ public class Robot extends IterativeRobot {
                 }
             }
         });
-        visionThread.start();
+        if (prefs.getBoolean("cam", false)) {
+            visionThread.start();
+        }
         chooser.addDefault("Default Auto", new StopTurret());
         SmartDashboard.putData("Auto mode", chooser);
     }
@@ -168,7 +170,7 @@ public class Robot extends IterativeRobot {
             }
             double turn = centerX - (getImgWidth() / 2);
             // drive with turn
-            Robot.driveTrain.wpiDrive.arcadeDrive(0.5, (turn * 0.005) * -1);
+            Robot.driveTrain.arcadeDrive(0.5, (turn * 0.005) * -1, true);
         }
     }
 

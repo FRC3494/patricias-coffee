@@ -2,7 +2,6 @@ package org.usfirst.frc.team3494.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
 
@@ -14,20 +13,15 @@ import org.usfirst.frc.team3494.robot.commands.drive.Drive;
  * @since 0.0.0
  */
 public class Drivetrain extends Subsystem {
-    public Victor drive_left = new Victor(RobotMap.drive_left);
-    public Victor drive_right = new Victor(RobotMap.drive_right);
-    /**
-     * Instance of wpiDrive for using WPI's driving code. Should <em>not</em> be
-     * used for tank driving (use {@link Drivetrain#TankDrive} instead.)
-     *
-     * @since 0.0.0
-     */
-    public DifferentialDrive wpiDrive = new DifferentialDrive(drive_left, drive_right);
+    private Victor drive_left = new Victor(RobotMap.drive_left);
+    private Victor drive_right = new Victor(RobotMap.drive_right);
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
     public Drivetrain() {
         super("Drivetrain");
+
+        drive_right.setInverted(true);
     }
 
     @Override
@@ -46,10 +40,58 @@ public class Drivetrain extends Subsystem {
      *              between 0 and 1.
      */
     public void TankDrive(double left, double right) {
-        if (left > RobotMap.DRIVE_TOLERANCE && right > RobotMap.DRIVE_TOLERANCE) {
-            drive_left.set(left);
-            drive_right.set(right);
+        drive_left.set(left);
+        drive_right.set(right);
+    }
+
+    /**
+     * Arcade drive method for differential drive platform.
+     *
+     * @param xSpeed        The robot's speed along the X axis [-1.0..1.0]. Forward is positive.
+     * @param zRotation     The robot's rotation rate around the Z axis [-1.0..1.0]. Clockwise is
+     *                      positive.
+     * @param squaredInputs If set, decreases the input sensitivity at low speeds.
+     */
+    @SuppressWarnings("ParameterName")
+    public void arcadeDrive(double xSpeed, double zRotation, boolean squaredInputs) {
+        xSpeed = limit(xSpeed);
+        xSpeed = applyDeadband(xSpeed, 0.02);
+
+        zRotation = limit(zRotation);
+        zRotation = applyDeadband(zRotation, 0.02);
+
+        // Square the inputs (while preserving the sign) to increase fine control
+        // while permitting full power.
+        if (squaredInputs) {
+            xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
+            zRotation = Math.copySign(zRotation * zRotation, zRotation);
         }
+
+        double leftMotorOutput;
+        double rightMotorOutput;
+
+        double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
+
+        if (xSpeed >= 0.0) {
+            // First quadrant, else second quadrant
+            if (zRotation >= 0.0) {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = xSpeed - zRotation;
+            } else {
+                leftMotorOutput = xSpeed + zRotation;
+                rightMotorOutput = maxInput;
+            }
+        } else {
+            // Third quadrant, else fourth quadrant
+            if (zRotation >= 0.0) {
+                leftMotorOutput = xSpeed + zRotation;
+                rightMotorOutput = maxInput;
+            } else {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = xSpeed - zRotation;
+            }
+        }
+        this.TankDrive(limit(leftMotorOutput), limit(rightMotorOutput));
     }
 
     /**
@@ -60,5 +102,27 @@ public class Drivetrain extends Subsystem {
     public void StopDrive() {
         drive_left.stopMotor();
         drive_right.stopMotor();
+    }
+
+    private static double limit(double value) {
+        if (value > 1.0) {
+            return 1.0;
+        }
+        if (value < -1.0) {
+            return -1.0;
+        }
+        return value;
+    }
+
+    private static double applyDeadband(double value, double deadband) {
+        if (Math.abs(value) > deadband) {
+            if (value > 0.0) {
+                return (value - deadband) / (1.0 - deadband);
+            } else {
+                return (value + deadband) / (1.0 - deadband);
+            }
+        } else {
+            return 0.0;
+        }
     }
 }
