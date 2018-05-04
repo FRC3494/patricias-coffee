@@ -203,7 +203,7 @@ public class Robot extends IterativeRobot {
         synchronized (imgLock) {
             centerX = this.centerX;
         }
-        memSys.setCenterX(centerX);
+        turret.setCenterX(centerX);
         Scheduler.getInstance().run();
     }
 
