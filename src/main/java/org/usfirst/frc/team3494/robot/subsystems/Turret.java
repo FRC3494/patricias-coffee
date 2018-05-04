@@ -23,6 +23,9 @@ public class Turret extends Subsystem {
 
     public Turret() {
         super("Turret");
+        shooter_top.setInverted(true);
+        shooter_bot.setInverted(true);
+
         turret_enc = new Encoder(RobotMap.turretEncoder_A, RobotMap.turretEncoder_B);
         turret_enc.setDistancePerPulse(1 / 420);
         turret_enc.reset();
