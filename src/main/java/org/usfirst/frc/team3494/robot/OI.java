@@ -69,4 +69,12 @@ public class OI {
     public JoystickButton getXbox_x() {
         return xbox_x;
     }
+
+    public Joystick getFlight_one() {
+        return flight_one;
+    }
+
+    public Joystick getFlight_two() {
+        return flight_two;
+    }
 }
