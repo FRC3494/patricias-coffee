@@ -16,8 +16,11 @@ import org.usfirst.frc.team3494.robot.commands.turret.Shoot;
 public class Turret extends Subsystem {
     private Victor shooter_top = new Victor(RobotMap.shooterTop);
     private Victor shooter_bot = new Victor(RobotMap.shooterBottom);
+
     private Victor turret_con = new Victor(RobotMap.turretMotor);
     private Encoder turret_enc;
+
+    private double centerX = 0.0;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -105,7 +108,7 @@ public class Turret extends Subsystem {
         if (get.equals(UnitTypes.RAWCOUNT)) {
             return turret_enc.get();
         } else if (get.equals(UnitTypes.MILLIMETERS)) {
-            // distance = wheel circumfrence * wheel rotations = (pi * d) * # of
+            // distance = wheel circumference * wheel rotations = (pi * d) * # of
             // counts/N * 360, assuming encoder on output shaft
             // if there is a gearbox in the way, distance =
             double pi = Math.PI;
@@ -118,4 +121,11 @@ public class Turret extends Subsystem {
         }
     }
 
+    public double getCenterX() {
+        return this.centerX;
+    }
+
+    public void setCenterX(double x) {
+        this.centerX = x;
+    }
 }

@@ -19,7 +19,6 @@ public class AimbotCommand extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(Robot.turret);
-        requires(Robot.memSys);
     }
 
     // Called just before this Command runs the first time
@@ -30,7 +29,7 @@ public class AimbotCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double centerX = Robot.memSys.getCenterX();
+        double centerX = Robot.turret.getCenterX();
         System.out.println("centerX: " + centerX);
         double centerDist = centerX - (Robot.getImgWidth() / 2);
         /*

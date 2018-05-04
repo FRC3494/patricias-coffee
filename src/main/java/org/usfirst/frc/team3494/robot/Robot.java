@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +18,6 @@ import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
-import org.usfirst.frc.team3494.robot.subsystems.MemSys;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
@@ -48,12 +46,6 @@ public class Robot extends IterativeRobot {
      * and such.
      */
     public static Turret turret;
-    /**
-     * Instance of {@link MemSys}. use this for {@code requires()} statements
-     * and such. <b>Warning: </b> MemSys is where we hid all the parallelism
-     * demons. It's dangerous, hacky, and generally bad.
-     */
-    public static MemSys memSys;
     /**
      * Instance of {@link OI}. No subsystem should require this. However, you
      * can read button values from it.
@@ -88,7 +80,6 @@ public class Robot extends IterativeRobot {
         driveTrain = new Drivetrain();
         lifter = new Lifter();
         turret = new Turret();
-        memSys = new MemSys();
         oi = new OI();
         prefs = Preferences.getInstance();
         // start vision thread
@@ -156,13 +147,10 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         try {
             autonomousCommand = chooser.getSelected();
+            autonomousCommand.start();
         } catch (NullPointerException e) {
             System.out.println("Caught NPE in auto init. Is there a button chooser on the SmartDashboard?");
             autonomousCommand = null;
-        }
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null) {
-            autonomousCommand.start();
         }
     }
 
@@ -203,7 +191,7 @@ public class Robot extends IterativeRobot {
         synchronized (imgLock) {
             centerX = this.centerX;
         }
-        memSys.setCenterX(centerX);
+        turret.setCenterX(centerX);
         Scheduler.getInstance().run();
     }
 
