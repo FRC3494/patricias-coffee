@@ -3,14 +3,15 @@ package org.usfirst.frc.team3494.robot.commands.turret;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.DriveDirections;
 import org.usfirst.frc.team3494.robot.Robot;
+import org.usfirst.frc.team3494.robot.subsystems.Shooter;
 
 /**
- * Command to automatically point the turret towards a piece of retro-reflective
+ * Command to automatically point the shooter towards a piece of retro-reflective
  * material (more exactly, to where ever {@link Robot#getCenterX()} returns.)
- * This command will <em>not</em> stop the turret motors once the command stops
+ * This command will <em>not</em> stop the shooter motors once the command stops
  * running.
  *
- * @see org.usfirst.frc.team3494.robot.subsystems.Turret
+ * @see Shooter
  * @since 0.0.0
  */
 public class AimbotCommand extends Command {
@@ -18,7 +19,7 @@ public class AimbotCommand extends Command {
     public AimbotCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.turret);
+        requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
@@ -29,7 +30,7 @@ public class AimbotCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double centerX = Robot.turret.getCenterX();
+        double centerX = Robot.shooter.getCenterX();
         System.out.println("centerX: " + centerX);
         double centerDist = centerX - (Robot.getImgWidth() / 2);
         /*
@@ -41,12 +42,12 @@ public class AimbotCommand extends Command {
         double turnpower = Math.abs(centerDist * 0.006);
         if (turnpower > 0.15) {
             if (centerDist < 0) {
-                Robot.turret.preciseTurret(turnpower, DriveDirections.LEFT);
+                Robot.shooter.preciseTurret(turnpower, DriveDirections.LEFT);
             } else {
-                Robot.turret.preciseTurret(turnpower, DriveDirections.RIGHT);
+                Robot.shooter.preciseTurret(turnpower, DriveDirections.RIGHT);
             }
         } else {
-            Robot.turret.turnTurret(DriveDirections.STOP);
+            Robot.shooter.turnTurret(DriveDirections.STOP);
         }
     }
 

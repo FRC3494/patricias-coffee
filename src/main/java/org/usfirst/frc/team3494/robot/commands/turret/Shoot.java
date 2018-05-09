@@ -12,7 +12,7 @@ public class Shoot extends Command {
     public Shoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.turret);
+        requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
@@ -24,9 +24,9 @@ public class Shoot extends Command {
     @Override
     protected void execute() {
         if (Robot.oi.xbox.getTriggerAxis(Hand.kRight) > 0) {
-            Robot.turret.shoot(Robot.oi.xbox.getTriggerAxis(Hand.kRight) * Robot.prefs.getDouble("shootlim", 1));
+            Robot.shooter.shoot(Robot.oi.xbox.getTriggerAxis(Hand.kRight) * Robot.prefs.getDouble("shootlim", 1));
         } else {
-            Robot.turret.shoot(0);
+            Robot.shooter.shoot(0);
         }
     }
 

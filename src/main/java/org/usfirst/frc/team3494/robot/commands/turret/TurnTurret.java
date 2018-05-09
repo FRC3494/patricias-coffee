@@ -15,7 +15,7 @@ public class TurnTurret extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         super("TurnTurret");
-        requires(Robot.turret);
+        requires(Robot.shooter);
         this.dir = D;
     }
 
@@ -27,7 +27,7 @@ public class TurnTurret extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.turret.turnTurret(this.dir);
+        Robot.shooter.turnTurret(this.dir);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,7 +39,7 @@ public class TurnTurret extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.turret.turnTurret(DriveDirections.STOP);
+        Robot.shooter.turnTurret(DriveDirections.STOP);
     }
 
     // Called when another command which requires one or more of the same

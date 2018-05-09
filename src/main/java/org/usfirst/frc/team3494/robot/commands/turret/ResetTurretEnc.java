@@ -11,19 +11,19 @@ public class ResetTurretEnc extends Command {
     public ResetTurretEnc() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.turret);
+        requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Resetting turret encoder");
+        System.out.println("Resetting shooter encoder");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.turret.resetTurret_enc();
+        Robot.shooter.resetTurret_enc();
     }
 
     // Make this return true when this Command no longer needs to run execute()

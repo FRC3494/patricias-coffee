@@ -18,7 +18,7 @@ import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
-import org.usfirst.frc.team3494.robot.subsystems.Turret;
+import org.usfirst.frc.team3494.robot.subsystems.Shooter;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
 import java.util.ArrayList;
@@ -42,10 +42,10 @@ public class Robot extends IterativeRobot {
      */
     public static Lifter lifter;
     /**
-     * Instance of {@link Turret}. use this for {@code requires()} statements
+     * Instance of {@link Shooter}. use this for {@code requires()} statements
      * and such.
      */
-    public static Turret turret;
+    public static Shooter shooter;
     /**
      * Instance of {@link OI}. No subsystem should require this. However, you
      * can read button values from it.
@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
         // init subsystems
         driveTrain = new Drivetrain();
         lifter = new Lifter();
-        turret = new Turret();
+        shooter = new Shooter();
         oi = new OI();
         prefs = Preferences.getInstance();
         // start vision thread
@@ -193,7 +193,7 @@ public class Robot extends IterativeRobot {
         synchronized (imgLock) {
             centerX = this.centerX;
         }
-        turret.setCenterX(centerX);
+        shooter.setCenterX(centerX);
         Scheduler.getInstance().run();
     }
 
