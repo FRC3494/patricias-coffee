@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.lifter.Lift;
@@ -14,9 +14,9 @@ public class Lifter extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    private Victor lift_bottom = new Victor(RobotMap.liftBottom);
-    private Victor lift_top_front = new Victor(RobotMap.liftTopFront);
-    private Victor lift_top_back = new Victor(RobotMap.liftTopBack);
+    private Talon lift_top_back = new Talon(RobotMap.liftTopBack);
+    private Talon lift_top_front = new Talon(RobotMap.liftTopFront);
+    private Talon lift_bottom = new Talon(RobotMap.liftBottom);
 
     public Lifter() {
         super("Lifter");

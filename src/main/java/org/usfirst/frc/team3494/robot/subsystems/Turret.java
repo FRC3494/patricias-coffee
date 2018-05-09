@@ -1,7 +1,8 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.DriveDirections;
 import org.usfirst.frc.team3494.robot.RobotMap;
@@ -14,10 +15,10 @@ import org.usfirst.frc.team3494.robot.commands.turret.Shoot;
  * @since 0.0.0
  */
 public class Turret extends Subsystem {
-    private Victor shooter_top = new Victor(RobotMap.shooterTop);
-    private Victor shooter_bot = new Victor(RobotMap.shooterBottom);
+    private Talon shooter_top = new Talon(RobotMap.shooterTop);
+    private Talon shooter_bot = new Talon(RobotMap.shooterBottom);
 
-    private Victor turret_con = new Victor(RobotMap.turretMotor);
+    private Spark turret_con = new Spark(RobotMap.turretMotor);
     private Encoder turret_enc;
 
     private double centerX = 0.0;

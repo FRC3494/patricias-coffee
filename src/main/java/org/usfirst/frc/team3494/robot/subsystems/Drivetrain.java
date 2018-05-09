@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3494.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.commands.drive.Drive;
@@ -13,8 +13,8 @@ import org.usfirst.frc.team3494.robot.commands.drive.Drive;
  * @since 0.0.0
  */
 public class Drivetrain extends Subsystem {
-    private Victor drive_left = new Victor(RobotMap.drive_left);
-    private Victor drive_right = new Victor(RobotMap.drive_right);
+    private Talon drive_left = new Talon(RobotMap.drive_left);
+    private Talon drive_right = new Talon(RobotMap.drive_right);
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
