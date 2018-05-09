@@ -4,20 +4,20 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.DriveDirections;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.UnitTypes;
-import org.usfirst.frc.team3494.robot.subsystems.Shooter;
+import org.usfirst.frc.team3494.robot.subsystems.Turret;
 
 /**
  * Command to go to the encoder 0 position. Stops the shooter once it's there.
  *
- * @see Shooter
- * @see Shooter#getTurretEncDistance
+ * @see Turret
+ * @see Turret#getTurretEncDistance
  */
 public class GoHome extends Command {
 
     public GoHome() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.shooter);
+        requires(Robot.turret);
     }
 
     // Called just before this Command runs the first time
@@ -28,29 +28,30 @@ public class GoHome extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double location = Robot.shooter.getTurretEncDistance(UnitTypes.MILLIMETERS);
+        double location = Robot.turret.getTurretEncDistance(UnitTypes.MILLIMETERS);
         if (location > 0) {
-            Robot.shooter.turnTurret(DriveDirections.LEFT);
+            Robot.turret.turnTurret(DriveDirections.LEFT);
         } else {
-            Robot.shooter.turnTurret(DriveDirections.RIGHT);
+            Robot.turret.turnTurret(DriveDirections.RIGHT);
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Robot.shooter.getTurretEncDistance(UnitTypes.MILLIMETERS) == 0;
+        return Robot.turret.getTurretEncDistance(UnitTypes.MILLIMETERS) == 0;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.shooter.turnTurret(DriveDirections.STOP);
+        Robot.turret.turnTurret(DriveDirections.STOP);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        end();
     }
 }
