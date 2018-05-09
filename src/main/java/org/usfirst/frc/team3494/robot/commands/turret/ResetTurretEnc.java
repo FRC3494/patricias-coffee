@@ -3,9 +3,6 @@ package org.usfirst.frc.team3494.robot.commands.turret;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.Robot;
 
-/**
- *
- */
 public class ResetTurretEnc extends Command {
 
     public ResetTurretEnc() {
@@ -17,7 +14,6 @@ public class ResetTurretEnc extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        System.out.println("Resetting turret encoder");
     }
 
     // Called repeatedly when this Command is scheduled to run

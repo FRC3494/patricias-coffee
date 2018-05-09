@@ -2,55 +2,26 @@ package org.usfirst.frc.team3494.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team3494.robot.DriveDirections;
 import org.usfirst.frc.team3494.robot.RobotMap;
 import org.usfirst.frc.team3494.robot.UnitTypes;
-import org.usfirst.frc.team3494.robot.commands.turret.Shoot;
 
-/**
- * Turret subsystem. Contains all methods for controlling the robot's turret.
- *
- * @since 0.0.0
- */
 public class Turret extends Subsystem {
-    private Talon shooter_top = new Talon(RobotMap.shooterTop);
-    private Talon shooter_bot = new Talon(RobotMap.shooterBottom);
 
-    private Spark turret_con = new Spark(RobotMap.turretMotor);
+    private Spark turret_con;
     private Encoder turret_enc;
 
     private double centerX = 0.0;
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 
     public Turret() {
         super("Turret");
-        shooter_top.setInverted(true);
-        shooter_bot.setInverted(true);
+
+        this.turret_con = new Spark(RobotMap.turretMotor);
 
         turret_enc = new Encoder(RobotMap.turretEncoder_A, RobotMap.turretEncoder_B);
         turret_enc.setDistancePerPulse(1 / 420);
         turret_enc.reset();
-    }
-
-    @Override
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new Shoot());
-    }
-
-    /**
-     * Run the shooter.
-     *
-     * @param speed The speed to run the shooter at. This can be backwards,
-     *              but...why?
-     */
-    public void shoot(double speed) {
-        shooter_top.set(speed);
-        shooter_bot.set(speed);
     }
 
     /**
@@ -58,7 +29,7 @@ public class Turret extends Subsystem {
      *
      * @param dir The direction to turn in. Only use
      *            {@link DriveDirections#LEFT} or {@link DriveDirections#RIGHT}.
-     *            Any other value will stop the turret.
+     *            Any other value will stop the shooter.
      */
     public void turnTurret(DriveDirections dir) {
         if (dir.equals(DriveDirections.LEFT)) {
@@ -73,11 +44,11 @@ public class Turret extends Subsystem {
     /**
      * Turns the turret at a given speed.
      *
-     * @param power The power to turn the turret at. This should be
+     * @param power The power to turn the shooter at. This should be
      *              <em>positive</em>, regardless of the direction to turn in.
      * @param dir   The direction to turn in. This should be either
      *              {@link DriveDirections#LEFT} or {@link DriveDirections#RIGHT}.
-     *              Anything else will stop the turret.
+     *              Anything else will stop the shooter.
      */
     public void preciseTurret(double power, DriveDirections dir) {
         if (dir.equals(DriveDirections.LEFT)) {
@@ -128,5 +99,10 @@ public class Turret extends Subsystem {
 
     public void setCenterX(double x) {
         this.centerX = x;
+    }
+
+    @Override
+    protected void initDefaultCommand() {
+
     }
 }

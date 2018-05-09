@@ -18,6 +18,7 @@ import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
+import org.usfirst.frc.team3494.robot.subsystems.Shooter;
 import org.usfirst.frc.team3494.robot.subsystems.Turret;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
@@ -42,9 +43,10 @@ public class Robot extends IterativeRobot {
      */
     public static Lifter lifter;
     /**
-     * Instance of {@link Turret}. use this for {@code requires()} statements
+     * Instance of {@link Shooter}. use this for {@code requires()} statements
      * and such.
      */
+    public static Shooter shooter;
     public static Turret turret;
     /**
      * Instance of {@link OI}. No subsystem should require this. However, you
@@ -79,6 +81,7 @@ public class Robot extends IterativeRobot {
         // init subsystems
         driveTrain = new Drivetrain();
         lifter = new Lifter();
+        shooter = new Shooter();
         turret = new Turret();
         oi = new OI();
         prefs = Preferences.getInstance();
@@ -193,7 +196,7 @@ public class Robot extends IterativeRobot {
         synchronized (imgLock) {
             centerX = this.centerX;
         }
-        turret.setCenterX(centerX);
+        shooter.setCenterX(centerX);
         Scheduler.getInstance().run();
     }
 

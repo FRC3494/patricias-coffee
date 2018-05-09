@@ -4,9 +4,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.DriveDirections;
 import org.usfirst.frc.team3494.robot.Robot;
 
-/**
- *
- */
 public class TurnTurret extends Command {
 
     private DriveDirections dir;
@@ -17,11 +14,6 @@ public class TurnTurret extends Command {
         super("TurnTurret");
         requires(Robot.turret);
         this.dir = D;
-    }
-
-    // Called just before this Command runs the first time
-    @Override
-    protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -40,11 +32,5 @@ public class TurnTurret extends Command {
     @Override
     protected void end() {
         Robot.turret.turnTurret(DriveDirections.STOP);
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
-    protected void interrupted() {
     }
 }

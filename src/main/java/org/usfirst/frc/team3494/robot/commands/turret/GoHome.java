@@ -4,12 +4,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3494.robot.DriveDirections;
 import org.usfirst.frc.team3494.robot.Robot;
 import org.usfirst.frc.team3494.robot.UnitTypes;
+import org.usfirst.frc.team3494.robot.subsystems.Turret;
 
 /**
- * Command to go to the encoder 0 position. Stops the turret once it's there.
+ * Command to go to the encoder 0 position. Stops the shooter once it's there.
  *
- * @see org.usfirst.frc.team3494.robot.subsystems.Turret
- * @see org.usfirst.frc.team3494.robot.subsystems.Turret#getTurretEncDistance
+ * @see Turret
+ * @see Turret#getTurretEncDistance
  */
 public class GoHome extends Command {
 
@@ -51,5 +52,6 @@ public class GoHome extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        end();
     }
 }
