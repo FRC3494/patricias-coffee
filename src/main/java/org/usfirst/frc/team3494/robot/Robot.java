@@ -19,6 +19,7 @@ import org.usfirst.frc.team3494.robot.commands.turret.StopTurret;
 import org.usfirst.frc.team3494.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3494.robot.subsystems.Lifter;
 import org.usfirst.frc.team3494.robot.subsystems.Shooter;
+import org.usfirst.frc.team3494.robot.subsystems.Turret;
 import org.usfirst.frc.team3494.robot.vision.GripPipeline;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class Robot extends IterativeRobot {
      * and such.
      */
     public static Shooter shooter;
+    public static Turret turret;
     /**
      * Instance of {@link OI}. No subsystem should require this. However, you
      * can read button values from it.
@@ -80,6 +82,7 @@ public class Robot extends IterativeRobot {
         driveTrain = new Drivetrain();
         lifter = new Lifter();
         shooter = new Shooter();
+        turret = new Turret();
         oi = new OI();
         prefs = Preferences.getInstance();
         // start vision thread
