@@ -19,9 +19,9 @@ public class RobotMap {
     public static final int drive_left = 0;
     public static final int drive_right = 1;
 
-    public static final int liftBottom = 6;
     public static final int liftTopFront = 4;
     public static final int liftTopBack = 5;
+    public static final int liftBottom = 6;
 
     public static final int shooterTop = 3;
     public static final int shooterBottom = 2;

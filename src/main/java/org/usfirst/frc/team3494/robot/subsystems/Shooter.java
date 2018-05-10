@@ -18,7 +18,6 @@ public class Shooter extends Subsystem {
 
     public Shooter() {
         super("Shooter");
-        shooter_top.setInverted(true);
         shooter_bot.setInverted(true);
     }
 

@@ -20,6 +20,7 @@ public class Lifter extends Subsystem {
 
     public Lifter() {
         super("Lifter");
+        lift_top_back.setInverted(true);
         lift_bottom.setInverted(true);
     }
 
